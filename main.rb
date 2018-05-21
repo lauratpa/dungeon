@@ -18,6 +18,7 @@ require 'roomable'
 require 'presentable'
 require 'background_rendering'
 require 'element_rendering'
+require 'title_screen'
 
 $logger = Logger.new('debug.log')
 
@@ -35,6 +36,8 @@ world.add_entity(hero)
 world.add_system(MovementSystem.new)
 world.add_system(BackgroundRendering.new(ui: ui))
 world.add_system(ElementRendering.new(ui: ui))
+
+TitleScreen.new(ui: ui).show
 
 loop do
   player_input = PlayerInput.new(key: ui.prompt)

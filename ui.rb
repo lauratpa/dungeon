@@ -4,10 +4,11 @@ class UI
   include Curses
 
   def initialize
-    noecho
-    init_screen
-    crmode
-    curs_set(0)
+    noecho # Don't show pressed keys
+    start_color # Show colors
+    crmode # React to each pressed key
+    curs_set(0) # Make cursors invisible
+    init_screen # Start
   end
 
   def close
@@ -18,6 +19,7 @@ class UI
     super
   end
 
+  # Window for showing the map
   def map_window
     @map_window ||= Curses::Window.new(30, 120, 1, 1).tap do |window|
       window.box("|", "-")
@@ -25,12 +27,13 @@ class UI
     end
   end
 
-  def message(y, x, string)
+  def message(y:, x:, str:)
     x = x + cols if x < 0
     y = y + lines if y < 0
 
     setpos(y, x)
-    addstr(string)
+    addstr(str)
+    refresh
   end
 
   def prompt

@@ -6,7 +6,7 @@ class BackgroundRendering < System
     super(component_types: [Roomable])
   end
 
-  def handle(player_input:, entities:)
+  def handle(player_input: nil, entities:)
     rooms = entities.map do |entity|
       entity.components.detect do |component|
         component.type == Roomable

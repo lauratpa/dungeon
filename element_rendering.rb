@@ -4,7 +4,7 @@ class ElementRendering < System
     super(component_types: [Position, Presentable])
   end
 
-  def handle(player_input:, entities:)
+  def handle(player_input: nil, entities:)
     elements = entities.map do |entity|
       entity.components.select do |component|
         component_types.include?(component.type)
