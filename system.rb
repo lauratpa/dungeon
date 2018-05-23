@@ -8,7 +8,7 @@ class System
       entity.components.map(&:type).to_set.superset?(component_types)
     end
 
-    handle(player_input: player_input, entities: selected_entities)
+    handle(player_input: player_input, entities: entities)
   end
 
   private

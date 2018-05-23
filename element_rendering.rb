@@ -5,13 +5,10 @@ class ElementRendering < System
   end
 
   def handle(player_input: nil, entities:)
-    elements = entities.map do |entity|
-      entity.components.select do |component|
-        component_types.include?(component.type)
-      end
-    end
+    entities.each do |entity|
+      position = entity.position
+      presentation = entity.presentable
 
-    elements.each do |presentation, position|
       ui.map_window.setpos(position.y, position.x)
       ui.map_window << presentation.sign
       ui.map_window.refresh

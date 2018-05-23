@@ -38,6 +38,7 @@ world.add_system(BackgroundRendering.new(ui: ui))
 world.add_system(ElementRendering.new(ui: ui))
 
 TitleScreen.new(ui: ui).show
+world.update(player_input: PlayerInput.new(key: Curses::KEY_ENTER))
 
 loop do
   player_input = PlayerInput.new(key: ui.prompt)

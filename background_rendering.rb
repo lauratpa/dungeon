@@ -7,13 +7,7 @@ class BackgroundRendering < System
   end
 
   def handle(player_input: nil, entities:)
-    rooms = entities.map do |entity|
-      entity.components.detect do |component|
-        component.type == Roomable
-      end
-    end.uniq
-
-    rooms.each do |room|
+    entities.map(&:roomable).uniq.each do |room|
       width = room.max_x - room.min_x
       height = room.max_y - room.min_y
 

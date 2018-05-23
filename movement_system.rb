@@ -6,10 +6,13 @@ class MovementSystem < System
   private
 
   def handle(player_input:, entities:)
+    movement = Movement.call(player_input: player_input)
+    return unless movement
+
     entities.each do |entity|
-      movement = Movement.call(player_input: player_input)
-      old_position = entity.components.detect { |c| c.type == Position }
-      room = entity.components.detect { |c| c.type == Roomable }
+      old_position = entity.position
+      room = entity.roomable
+
       attributes = old_position.attributes
 
       coordinate = movement.fetch(:coordinate)
@@ -23,7 +26,7 @@ class MovementSystem < System
       entity.replace_component(
         old_component: old_position,
         new_component: new_position
-     )
+      )
     end
   end
 
