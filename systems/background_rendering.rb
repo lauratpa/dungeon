@@ -1,3 +1,5 @@
+# Should be called room rendering perhaps
+
 class BackgroundRendering < System
   FLOOR = '.'
 
@@ -13,9 +15,17 @@ class BackgroundRendering < System
       width = room.max_x - room.min_x
       height = room.max_y - room.min_y
 
-      height.times do |i|
-        ui.map_window.setpos(room.min_y + i, room.min_x)
-        ui.map_window << FLOOR * width
+      # Draw floor and walls
+      (height + 2).times do |i|
+        ui.map_window.setpos(room.min_y + i - 1, room.min_x - 1)
+        case i
+        when 0
+          ui.map_window << '┌' + '─'* width + '┐'
+        when height + 1
+          ui.map_window << '└' + '─'* width + '┘'
+        else
+          ui.map_window << '│' + FLOOR * width + '│'
+        end
         ui.map_window.refresh
       end
     end
