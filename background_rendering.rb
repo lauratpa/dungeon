@@ -6,6 +6,8 @@ class BackgroundRendering < System
     super(component_types: [Roomable])
   end
 
+  private
+
   def handle(player_input: nil, entities:)
     entities.map(&:roomable).uniq.each do |room|
       width = room.max_x - room.min_x
@@ -18,8 +20,6 @@ class BackgroundRendering < System
       end
     end
   end
-
-  private
 
   attr_reader :ui
 end

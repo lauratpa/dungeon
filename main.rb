@@ -16,6 +16,7 @@ require 'movement_system'
 require 'movement'
 require 'roomable'
 require 'presentable'
+require 'player_movable'
 require 'background_rendering'
 require 'element_rendering'
 require 'title_screen'
@@ -24,15 +25,23 @@ $logger = Logger.new('debug.log')
 
 ui = UI.new
 world = World.new
-hero = Entity.new
-position = Position.new(x: 10, y:10)
 roomable = Roomable.new(min_x: 8, min_y: 8, max_x: 12, max_y: 12)
 
-hero.add_component(position)
+hero = Entity.new
+hero_position = Position.new(x: 10, y:10)
+hero.add_component(hero_position)
 hero.add_component(roomable)
 hero.add_component(Presentable.new(sign: '@'))
+hero.add_component(PlayerMovable.new)
+
+rock = Entity.new
+rock_position = Position.new(x: 11, y:10)
+rock.add_component(rock_position)
+rock.add_component(roomable)
+rock.add_component(Presentable.new(sign: 'o'))
 
 world.add_entity(hero)
+world.add_entity(rock)
 world.add_system(MovementSystem.new)
 world.add_system(BackgroundRendering.new(ui: ui))
 world.add_system(ElementRendering.new(ui: ui))

@@ -37,6 +37,6 @@ class Entity
   end
 
   def respond_to_missing?(method_name, include_private = false)
-    component = components.detect { |c| c.type.to_s.downcase == method.to_s } || super
+    components.any? { |c| c.type.to_s.downcase == method_name.to_s } || super
   end
 end

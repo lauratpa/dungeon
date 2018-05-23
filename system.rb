@@ -8,14 +8,14 @@ class System
       entity.components.map(&:type).to_set.superset?(component_types)
     end
 
-    handle(player_input: player_input, entities: entities)
+    handle(player_input: player_input, entities: selected_entities)
   end
 
   private
 
   attr_reader :component_types
 
-  def handle
+  def handle(player_input:, entities:)
     raise NotImplementedError
   end
 end

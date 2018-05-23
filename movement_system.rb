@@ -1,6 +1,6 @@
 class MovementSystem < System
   def initialize
-    super(component_types: [Position, Roomable])
+    super(component_types: [Position, Roomable, PlayerMovable])
   end
 
   private
