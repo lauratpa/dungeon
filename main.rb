@@ -6,20 +6,23 @@ require 'logger'
 require 'curses'
 
 require 'ui'
-require 'component'
-require 'position'
+require 'title_screen'
 require 'entity'
 require 'world'
-require 'system'
-require 'player_input'
-require 'movement_system'
-require 'movement'
-require 'roomable'
-require 'presentable'
-require 'player_movable'
-require 'background_rendering'
-require 'element_rendering'
-require 'title_screen'
+
+require 'components/component'
+require 'components/position'
+require 'components/player_input'
+require 'components/movement'
+require 'components/roomable'
+require 'components/presentable'
+require 'components/player_movable'
+
+require 'systems/system'
+require 'systems/movement_system'
+require 'systems/background_rendering'
+require 'systems/element_rendering'
+
 
 $logger = Logger.new('debug.log')
 

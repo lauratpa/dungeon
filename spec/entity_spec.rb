@@ -1,5 +1,5 @@
 require './entity'
-require './component'
+require './components/component'
 
 RSpec.describe Entity do
   let(:component_class) { Class.new(Component).tap { |klass| stub_const('ABC', klass) } }

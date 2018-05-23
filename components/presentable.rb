@@ -1,5 +1,3 @@
-require './component'
-
 class Presentable < Component
   attr_reader :sign
 

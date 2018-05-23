@@ -1,5 +1,3 @@
-require './component'
-
 class Roomable < Component
   attr_reader :min_x, :max_x, :min_y, :max_y
 

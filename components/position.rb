@@ -1,5 +1,3 @@
-require './component'
-
 class Position < Component
   attr_reader :x, :y
 
