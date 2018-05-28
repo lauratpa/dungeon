@@ -26,6 +26,7 @@ require 'systems/movement_system'
 require 'systems/trap_system'
 require 'systems/background_rendering'
 require 'systems/element_rendering'
+require 'systems/stats_rendering'
 
 
 $logger = Logger.new('debug.log')
@@ -63,6 +64,7 @@ world.add_system(MovementSystem.new)
 world.add_system(TrapSystem.new)
 world.add_system(BackgroundRendering.new(ui: ui))
 world.add_system(ElementRendering.new(ui: ui))
+world.add_system(StatsRendering.new(ui: ui))
 
 TitleScreen.new(ui: ui).show
 world.update(player_input: PlayerInput.new(key: Curses::KEY_ENTER))

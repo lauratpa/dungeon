@@ -27,6 +27,13 @@ class UI
     end
   end
 
+  def stats_window
+    @stats_window ||= Curses::Window.new(4, 120, 31, 1).tap do |window|
+      window.box("|", "-")
+      window.refresh
+    end
+  end
+
   def message(y:, x:, str:)
     x = x + cols if x < 0
     y = y + lines if y < 0
