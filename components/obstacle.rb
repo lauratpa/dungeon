@@ -1,0 +1,2 @@
+class Obstacle < Component
+end
