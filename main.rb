@@ -21,6 +21,7 @@ require 'components/player_movable'
 require 'components/health'
 require 'components/obstacle'
 require 'components/trap'
+require 'components/foe'
 
 require 'systems/system'
 require 'systems/movement_system'
@@ -28,7 +29,7 @@ require 'systems/trap_system'
 require 'systems/background_rendering'
 require 'systems/element_rendering'
 require 'systems/stats_rendering'
-
+require 'systems/attacking_system'
 
 $logger = Logger.new('debug.log')
 
@@ -46,12 +47,14 @@ hero.add_component(PlayerMovable.new)
 hero.add_component(Obstacle.new)
 hero.add_component(Health.new(hp: 10))
 
-rock = Entity.new
-rock_position = Position.new(x: 11, y:10)
-rock.add_component(rock_position)
-rock.add_component(roomable)
-rock.add_component(Obstacle.new)
-rock.add_component(Presentable.new(sign: 'o'))
+enemy = Entity.new
+enemy_position = Position.new(x: 11, y:10)
+enemy.add_component(enemy_position)
+enemy.add_component(roomable)
+enemy.add_component(Obstacle.new)
+enemy.add_component(Health.new(hp: 5))
+enemy.add_component(Foe.new)
+enemy.add_component(Presentable.new(sign: '*'))
 
 trap = Entity.new
 trap.add_component(Position.new(x: 11, y:11))
@@ -60,8 +63,9 @@ trap.add_component(Trap.new(damage: 2))
 trap.add_component(Presentable.new(sign: 'e'))
 
 world.add_entity(hero)
-world.add_entity(rock)
+world.add_entity(enemy)
 world.add_entity(trap)
+world.add_system(AttackingSystem.new(entity_manager: entity_manager))
 world.add_system(MovementSystem.new(entity_manager: entity_manager))
 world.add_system(TrapSystem.new(entity_manager: entity_manager))
 world.add_system(BackgroundRendering.new(ui: ui, entity_manager: entity_manager))
@@ -69,7 +73,6 @@ world.add_system(ElementRendering.new(ui: ui, entity_manager: entity_manager))
 world.add_system(StatsRendering.new(ui: ui, entity_manager: entity_manager))
 
 TitleScreen.new(ui: ui).show
-world.update(player_input: PlayerInput.new(key: Curses::KEY_ENTER))
 
 loop do
   player_input = PlayerInput.new(key: ui.prompt)
