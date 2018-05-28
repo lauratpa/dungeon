@@ -3,9 +3,12 @@
 class BackgroundRendering < System
   FLOOR = '.'
 
-  def initialize(ui:)
+  def initialize(ui:, entity_manager:)
     @ui = ui
-    super(component_types: [Roomable])
+    super(
+      component_types: [Roomable],
+      entity_manager: entity_manager
+    )
   end
 
   private

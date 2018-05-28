@@ -1,13 +1,15 @@
 class StatsRendering < System
-  def initialize(ui:)
+  def initialize(ui:, entity_manager:)
     @ui = ui
-    super(component_types: [PlayerMovable])
+    super(
+      component_types: [PlayerMovable],
+      entity_manager: entity_manager
+    )
   end
 
   private
 
   def handle(player_input: nil, entities:)
-    $logger.info(entities)
     player = entities.first
     return unless player
 

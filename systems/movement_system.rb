@@ -1,6 +1,9 @@
 class MovementSystem < System
-  def initialize
-    super(component_types: [Position, Roomable, Obstacle])
+  def initialize(entity_manager:)
+    super(
+      component_types: [Position, Roomable, Obstacle],
+      entity_manager: entity_manager
+    )
   end
 
   private

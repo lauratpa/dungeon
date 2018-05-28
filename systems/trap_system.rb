@@ -1,6 +1,9 @@
 class TrapSystem < System
-  def initialize
-    super(component_types: [Position, Roomable])
+  def initialize(entity_manager:)
+    super(
+      component_types: [Position, Roomable],
+      entity_manager: entity_manager
+    )
   end
 
   private
@@ -20,6 +23,7 @@ class TrapSystem < System
 
     triggered_traps.each do |entity|
       player.health.take_hit(entity.trap.damage)
+      entity_manager.remove(entity)
     end
   end
 end

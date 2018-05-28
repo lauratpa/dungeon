@@ -1,7 +1,10 @@
 class ElementRendering < System
-  def initialize(ui:)
+  def initialize(ui:, entity_manager:)
     @ui = ui
-    super(component_types: [Position, Presentable])
+    super(
+      component_types: [Position, Presentable],
+      entity_manager: entity_manager
+    )
   end
 
   def handle(player_input: nil, entities:)

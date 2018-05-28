@@ -8,6 +8,7 @@ require 'curses'
 require 'ui'
 require 'title_screen'
 require 'entity'
+require 'entity_manager'
 require 'world'
 
 require 'components/component'
@@ -32,7 +33,8 @@ require 'systems/stats_rendering'
 $logger = Logger.new('debug.log')
 
 ui = UI.new
-world = World.new
+entity_manager = EntityManager.new
+world = World.new(entity_manager: entity_manager)
 roomable = Roomable.new(min_x: 8, min_y: 8, max_x: 12, max_y: 12)
 
 hero = Entity.new
@@ -60,11 +62,11 @@ trap.add_component(Presentable.new(sign: 'e'))
 world.add_entity(hero)
 world.add_entity(rock)
 world.add_entity(trap)
-world.add_system(MovementSystem.new)
-world.add_system(TrapSystem.new)
-world.add_system(BackgroundRendering.new(ui: ui))
-world.add_system(ElementRendering.new(ui: ui))
-world.add_system(StatsRendering.new(ui: ui))
+world.add_system(MovementSystem.new(entity_manager: entity_manager))
+world.add_system(TrapSystem.new(entity_manager: entity_manager))
+world.add_system(BackgroundRendering.new(ui: ui, entity_manager: entity_manager))
+world.add_system(ElementRendering.new(ui: ui, entity_manager: entity_manager))
+world.add_system(StatsRendering.new(ui: ui, entity_manager: entity_manager))
 
 TitleScreen.new(ui: ui).show
 world.update(player_input: PlayerInput.new(key: Curses::KEY_ENTER))
