@@ -34,6 +34,7 @@ require 'systems/stats_rendering'
 require 'systems/attacking_system'
 require 'systems/message_rendering'
 require 'systems/ttl_cleaner'
+require 'systems/grim_reaper'
 
 $logger = Logger.new('debug.log')
 
@@ -71,6 +72,7 @@ world.add_entity(enemy)
 world.add_entity(trap)
 
 world.add_system(AttackingSystem.new(entity_manager: entity_manager))
+world.add_system(GrimReaper.new(entity_manager: entity_manager))
 world.add_system(MovementSystem.new(entity_manager: entity_manager))
 world.add_system(TrapSystem.new(entity_manager: entity_manager))
 world.add_system(BackgroundRendering.new(ui: ui, entity_manager: entity_manager))
