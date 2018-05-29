@@ -22,6 +22,8 @@ require 'components/health'
 require 'components/obstacle'
 require 'components/trap'
 require 'components/foe'
+require 'components/message'
+require 'components/ttl'
 
 require 'systems/system'
 require 'systems/movement_system'
@@ -30,6 +32,8 @@ require 'systems/background_rendering'
 require 'systems/element_rendering'
 require 'systems/stats_rendering'
 require 'systems/attacking_system'
+require 'systems/message_rendering'
+require 'systems/ttl_cleaner'
 
 $logger = Logger.new('debug.log')
 
@@ -65,14 +69,20 @@ trap.add_component(Presentable.new(sign: 'e'))
 world.add_entity(hero)
 world.add_entity(enemy)
 world.add_entity(trap)
+
 world.add_system(AttackingSystem.new(entity_manager: entity_manager))
 world.add_system(MovementSystem.new(entity_manager: entity_manager))
 world.add_system(TrapSystem.new(entity_manager: entity_manager))
 world.add_system(BackgroundRendering.new(ui: ui, entity_manager: entity_manager))
 world.add_system(ElementRendering.new(ui: ui, entity_manager: entity_manager))
 world.add_system(StatsRendering.new(ui: ui, entity_manager: entity_manager))
+world.add_system(MessageRendering.new(ui: ui, entity_manager: entity_manager))
+world.add_system(TtlCleaner.new(entity_manager: entity_manager))
 
 TitleScreen.new(ui: ui).show
+player_input = PlayerInput.new(key: ui.prompt)
+ui.clear
+world.update(player_input: player_input)
 
 loop do
   player_input = PlayerInput.new(key: ui.prompt)

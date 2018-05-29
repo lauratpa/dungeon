@@ -35,9 +35,6 @@ class TitleScreen
       x: (Curses.cols - message.size) / 2 + 2,
       str: message
     )
-
-    ui.prompt
-    ui.clear
   end
 
   private

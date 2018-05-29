@@ -17,6 +17,7 @@ class UI
 
   def clear
     super
+    refresh
   end
 
   # Window for showing the map
@@ -29,6 +30,13 @@ class UI
 
   def stats_window
     @stats_window ||= Curses::Window.new(4, 120, 31, 1).tap do |window|
+      window.box("|", "-")
+      window.refresh
+    end
+  end
+
+  def message_window
+    @message_window ||= Curses::Window.new(8, 120, 35, 1).tap do |window|
       window.box("|", "-")
       window.refresh
     end

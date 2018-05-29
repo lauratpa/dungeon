@@ -24,6 +24,15 @@ class TrapSystem < System
     triggered_traps.each do |entity|
       player.health.take_hit(entity.trap.damage)
       entity_manager.remove(entity)
+      entity_manager.add(create_message(entity))
+    end
+  end
+
+  def create_message(enemy)
+    message = "You stepped on trap!"
+    Entity.new.tap do |e|
+      e.add_component(Message.new(message))
+      e.add_component(Ttl.new(3))
     end
   end
 end
