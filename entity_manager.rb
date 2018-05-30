@@ -11,6 +11,12 @@ class EntityManager
     entities.delete(entity)
   end
 
+  def player
+    @player ||= entities.detect do |entity|
+      entity.respond_to?(:playermovable)
+    end
+  end
+
   def select(component_types:)
     entities.select do |entity|
       entity.components.map(&:type).to_set.superset?(component_types)

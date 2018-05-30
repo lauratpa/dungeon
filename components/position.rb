@@ -9,4 +9,8 @@ class Position < Component
   def attributes
     { x: x, y: y }
   end
+
+  def ==(other)
+    attributes == other.attributes
+  end
 end

@@ -24,6 +24,7 @@ require 'components/trap'
 require 'components/foe'
 require 'components/message'
 require 'components/ttl'
+require 'components/hostile'
 
 require 'systems/system'
 require 'systems/movement_system'
@@ -35,6 +36,8 @@ require 'systems/attacking_system'
 require 'systems/message_rendering'
 require 'systems/ttl_cleaner'
 require 'systems/grim_reaper'
+require 'systems/approach_possibilities'
+require 'systems/guidance_system'
 
 $logger = Logger.new('debug.log')
 
@@ -44,7 +47,7 @@ world = World.new(entity_manager: entity_manager)
 roomable = Roomable.new(min_x: 8, min_y: 8, max_x: 12, max_y: 12)
 
 hero = Entity.new
-hero_position = Position.new(x: 10, y:10)
+hero_position = Position.new(x: 9, y: 9)
 hero.add_component(hero_position)
 hero.add_component(roomable)
 hero.add_component(Presentable.new(sign: '@'))
@@ -53,13 +56,14 @@ hero.add_component(Obstacle.new)
 hero.add_component(Health.new(hp: 10))
 
 enemy = Entity.new
-enemy_position = Position.new(x: 11, y:10)
+enemy_position = Position.new(x: 11, y:11)
 enemy.add_component(enemy_position)
 enemy.add_component(roomable)
 enemy.add_component(Obstacle.new)
 enemy.add_component(Health.new(hp: 5))
 enemy.add_component(Foe.new)
 enemy.add_component(Presentable.new(sign: '*'))
+enemy.add_component(Hostile.new)
 
 trap = Entity.new
 trap.add_component(Position.new(x: 11, y:11))
@@ -74,6 +78,7 @@ world.add_entity(trap)
 world.add_system(AttackingSystem.new(entity_manager: entity_manager))
 world.add_system(GrimReaper.new(entity_manager: entity_manager))
 world.add_system(MovementSystem.new(entity_manager: entity_manager))
+world.add_system(GuidanceSystem.new(entity_manager: entity_manager))
 world.add_system(TrapSystem.new(entity_manager: entity_manager))
 world.add_system(BackgroundRendering.new(ui: ui, entity_manager: entity_manager))
 world.add_system(ElementRendering.new(ui: ui, entity_manager: entity_manager))

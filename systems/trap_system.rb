@@ -9,10 +9,7 @@ class TrapSystem < System
   private
 
   def handle(player_input:, entities:)
-    player = entities.detect do |entity|
-      entity.components.map(&:type).to_set.superset?([PlayerMovable].to_set)
-    end
-    return unless player
+    player = entity_manager.player
 
     triggered_traps = entities
       .tap { |entities| entities.delete(player) }

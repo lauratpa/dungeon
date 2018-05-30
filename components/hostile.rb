@@ -1,0 +1,2 @@
+class Hostile < Component
+end

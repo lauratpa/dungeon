@@ -12,10 +12,7 @@ class AttackingSystem < System
     movement = Movement.call(player_input: player_input)
     return unless movement
 
-    player = entities.detect do |entity|
-      entity.components.map(&:type).to_set.superset?([PlayerMovable].to_set)
-    end
-    return unless player
+    player = entity_manager.player
 
     attributes = player.position.attributes
     coordinate = movement.fetch(:coordinate)
