@@ -24,7 +24,7 @@ class GuidanceSystem < System
 
       if new_position == player.position
         player.health.take_hit(1)
-        entity_manager.add(create_message(entity))
+        entity_manager.notify(create_message(entity))
       else
         entity.replace_component(
           old_component: entity.position,
@@ -52,10 +52,6 @@ class GuidanceSystem < System
   end
 
   def create_message(enemy)
-    message = "Enemy #{enemy.id} hits you!"
-    Entity.new.tap do |e|
-      e.add_component(Message.new(message))
-      e.add_component(Ttl.new(3))
-    end
+    "Enemy #{enemy.id} hits you!"
   end
 end

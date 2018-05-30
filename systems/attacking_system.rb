@@ -30,15 +30,11 @@ class AttackingSystem < System
 
     attacked_enemies.each do |entity|
       entity.health.take_hit(1)
-      entity_manager.add(create_message(entity))
+      entity_manager.notify(create_message(entity))
     end
   end
 
   def create_message(enemy)
-    message = "Enemy #{enemy.id} HP #{enemy.health.hp}"
-    Entity.new.tap do |e|
-      e.add_component(Message.new(message))
-      e.add_component(Ttl.new(3))
-    end
+    "Enemy #{enemy.id} HP #{enemy.health.hp}"
   end
 end

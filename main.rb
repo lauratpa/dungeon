@@ -39,6 +39,8 @@ require 'systems/grim_reaper'
 require 'systems/approach_possibilities'
 require 'systems/guidance_system'
 
+require 'lib/messenger'
+
 $logger = Logger.new('debug.log')
 
 ui = UI.new

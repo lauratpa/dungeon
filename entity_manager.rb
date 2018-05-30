@@ -11,6 +11,10 @@ class EntityManager
     entities.delete(entity)
   end
 
+  def notify(message)
+    add(Messenger.call(message))
+  end
+
   def player
     @player ||= entities.detect do |entity|
       entity.respond_to?(:playermovable)

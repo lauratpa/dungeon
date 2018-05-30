@@ -12,6 +12,10 @@ class MessageRendering < System
   def handle(player_input: nil, entities:)
     return unless entities
 
+    ui.message_window.clear
+    ui.message_window.box("|", "-")
+    ui.message_window.refresh
+
     entities.each_with_index do |entity, i|
       ui.message_window.setpos(1 + i, 1)
       ui.message_window << entity.message.message.ljust(ui.message_window.maxx - 2)
