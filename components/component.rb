@@ -14,4 +14,8 @@ class Component
   def type
     self.class
   end
+
+  def type_name
+    type.to_s.downcase
+  end
 end

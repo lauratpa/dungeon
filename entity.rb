@@ -27,16 +27,16 @@ class Entity
   end
 
   def method_missing(method, *args)
-    component = components.detect { |c| c.type.to_s.downcase == method.to_s }
+    component = components.detect { |c| c.type_name == method.to_s }
     super unless component
 
     define_singleton_method method do
-      components.detect { |c| c.type.to_s.downcase == method.to_s }
+      components.detect { |c| c.type_name == method.to_s }
     end
     component
   end
 
   def respond_to_missing?(method_name, include_private = false)
-    components.any? { |c| c.type.to_s.downcase == method_name.to_s } || super
+    components.any? { |c| c.type_name == method_name.to_s } || super
   end
 end
