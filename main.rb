@@ -11,6 +11,8 @@ require 'entity'
 require 'entity_manager'
 require 'world'
 
+require 'config'
+
 require 'components/component'
 require 'components/position'
 require 'components/player_input'
@@ -21,7 +23,6 @@ require 'components/player_movable'
 require 'components/health'
 require 'components/obstacle'
 require 'components/trap'
-require 'components/foe'
 require 'components/message'
 require 'components/ttl'
 require 'components/hostile'
@@ -38,6 +39,8 @@ require 'systems/ttl_cleaner'
 require 'systems/grim_reaper'
 require 'systems/approach_possibilities'
 require 'systems/guidance_system'
+
+require 'entities/enemies/spider'
 
 require 'lib/messenger'
 require 'lib/collision_detector'
@@ -58,15 +61,9 @@ hero.add_component(PlayerMovable.new)
 hero.add_component(Obstacle.new)
 hero.add_component(Health.new(hp: 10))
 
-enemy = Entity.new
-enemy_position = Position.new(x: 11, y:11)
-enemy.add_component(enemy_position)
-enemy.add_component(roomable)
-enemy.add_component(Obstacle.new)
-enemy.add_component(Health.new(hp: 5))
-enemy.add_component(Foe.new)
-enemy.add_component(Presentable.new(sign: '*'))
-enemy.add_component(Hostile.new)
+spider = Spider.new
+spider.add_component(Position.new(x: 11, y:11))
+spider.add_component(roomable)
 
 trap = Entity.new
 trap.add_component(Position.new(x: 11, y:11))
@@ -75,7 +72,7 @@ trap.add_component(Trap.new(damage: 2))
 trap.add_component(Presentable.new(sign: 'e'))
 
 world.add_entity(hero)
-world.add_entity(enemy)
+world.add_entity(spider)
 world.add_entity(trap)
 
 world.add_system(AttackingSystem.new(entity_manager: entity_manager))

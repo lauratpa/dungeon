@@ -33,6 +33,6 @@ class GuidanceSystem < System
   end
 
   def create_message(enemy)
-    "Enemy #{enemy.id} hits you!"
+    "#{enemy.name.capitalize} hits you!"
   end
 end

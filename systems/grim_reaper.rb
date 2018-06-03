@@ -15,6 +15,6 @@ class GrimReaper < System
   end
 
   def create_message(enemy)
-    "Enemy #{enemy.id} killed"
+    "#{enemy.name.capitalize} killed"
   end
 end

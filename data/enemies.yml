@@ -1,0 +1,4 @@
+---
+- name: spider
+  hp: 4
+  sign: 's'

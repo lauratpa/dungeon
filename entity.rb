@@ -10,7 +10,11 @@ class Entity
   end
 
   def to_s
-    "Entity {#{id}: #{self.class.name}}"
+    "Entity {#{id}: #{name}}"
+  end
+
+  def name
+    self.class.name
   end
 
   def add_component(component)

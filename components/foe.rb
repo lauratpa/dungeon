@@ -1,2 +1,0 @@
-class Foe < Component
-end

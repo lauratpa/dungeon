@@ -21,7 +21,7 @@ class AttackingSystem < System
 
     attacked_enemies = entities
       .tap { |entities| entities.delete(player) }
-      .select { |entity| entity.respond_to?(:foe) }
+      .select { |entity| entity.respond_to?(:hostile) }
       .select { |enemy| enemy.position.attributes == new_position.attributes }
 
     return if attacked_enemies.empty?
@@ -33,6 +33,6 @@ class AttackingSystem < System
   end
 
   def create_message(enemy)
-    "Enemy #{enemy.id} HP #{enemy.health.hp}"
+    "#{enemy.name.capitalize} HP #{enemy.health.hp}"
   end
 end
