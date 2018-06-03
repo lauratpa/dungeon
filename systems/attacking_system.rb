@@ -12,8 +12,6 @@ class AttackingSystem < System
     movement = Movement.call(player_input: player_input)
     return unless movement
 
-    player = entity_manager.player
-
     attributes = player.position.attributes
     coordinate = movement.fetch(:coordinate)
     value = movement.fetch(:value)

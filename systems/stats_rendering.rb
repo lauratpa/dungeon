@@ -10,9 +10,6 @@ class StatsRendering < System
   private
 
   def handle(player_input: nil, entities:)
-    player = entities.first
-    return unless player
-
     ui.stats_window.setpos(1, 1)
     ui.stats_window << "HP: #{player.health.hp.to_s.rjust(4)}"
     ui.stats_window.refresh

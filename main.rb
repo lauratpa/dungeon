@@ -40,6 +40,7 @@ require 'systems/approach_possibilities'
 require 'systems/guidance_system'
 
 require 'lib/messenger'
+require 'lib/collision_detector'
 
 $logger = Logger.new('debug.log')
 

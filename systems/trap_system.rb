@@ -9,10 +9,7 @@ class TrapSystem < System
   private
 
   def handle(player_input:, entities:)
-    player = entity_manager.player
-
     triggered_traps = entities
-      .tap { |entities| entities.delete(player) }
       .select { |entity| entity.respond_to?(:trap) }
       .select { |trap| trap.position.attributes == player.position.attributes }
 

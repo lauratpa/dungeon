@@ -8,7 +8,7 @@ class ElementRendering < System
   end
 
   def handle(player_input: nil, entities:)
-    entities.each do |entity|
+    entities.tap{ |ents| ents << player }.each do |entity|
       position = entity.position
       presentation = entity.presentable
 

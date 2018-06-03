@@ -16,7 +16,7 @@ class EntityManager
   end
 
   def player
-    @player ||= entities.detect do |entity|
+    entities.detect do |entity|
       entity.respond_to?(:playermovable)
     end
   end

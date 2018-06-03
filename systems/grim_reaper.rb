@@ -10,15 +10,11 @@ class GrimReaper < System
       .select { |entity| entity.health.hp <= 0 }
       .each do |entity|
         entity_manager.remove(entity)
-        entity_manager.add(create_message(entity))
+        entity_manager.notify(create_message(entity))
       end
   end
 
   def create_message(enemy)
-    message = "Enemy #{enemy.id} killed"
-    Entity.new.tap do |e|
-      e.add_component(Message.new(message))
-      e.add_component(Ttl.new(3))
-    end
+    "Enemy #{enemy.id} killed"
   end
 end
