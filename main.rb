@@ -44,6 +44,7 @@ require 'entities/enemies/spider'
 
 require 'lib/messenger'
 require 'lib/collision_detector'
+require 'lib/position_lottery'
 
 $logger = Logger.new('debug.log')
 
@@ -51,10 +52,10 @@ ui = UI.new
 entity_manager = EntityManager.new
 world = World.new(entity_manager: entity_manager)
 roomable = Roomable.new(min_x: 8, min_y: 8, max_x: 12, max_y: 12)
+position_lottery = PositionLottery.new(entity_manager: entity_manager)
 
 hero = Entity.new
-hero_position = Position.new(x: 9, y: 9)
-hero.add_component(hero_position)
+hero.add_component(position_lottery.draw(room: roomable))
 hero.add_component(roomable)
 hero.add_component(Presentable.new(sign: '@'))
 hero.add_component(PlayerMovable.new)
@@ -62,11 +63,11 @@ hero.add_component(Obstacle.new)
 hero.add_component(Health.new(hp: 10))
 
 spider = Spider.new
-spider.add_component(Position.new(x: 11, y:11))
+spider.add_component(position_lottery.draw(room: roomable))
 spider.add_component(roomable)
 
 trap = Entity.new
-trap.add_component(Position.new(x: 11, y:11))
+trap.add_component(position_lottery.draw(room: roomable))
 trap.add_component(roomable)
 trap.add_component(Trap.new(damage: 2))
 trap.add_component(Presentable.new(sign: 'e'))
