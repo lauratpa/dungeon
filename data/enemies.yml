@@ -2,3 +2,6 @@
 - name: spider
   hp: 4
   sign: 's'
+- name: ghost
+  hp: 4
+  sprite: './data/ghost.png'

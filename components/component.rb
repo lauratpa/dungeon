@@ -16,6 +16,6 @@ class Component
   end
 
   def type_name
-    type.to_s.downcase
+    @type_name ||= self.class.name.to_s.downcase!.to_sym
   end
 end

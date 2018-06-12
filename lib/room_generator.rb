@@ -37,82 +37,62 @@ class RoomGenerator
 
   attr_reader :world
 
+  def self.add_components_to(entity:, x:, y:, path:)
+    entity.add_component(Obstacle.new)
+    entity.add_component(Position.new(x: x, y: y))
+    entity.add_component(Presentable.new(path: path))
+    entity.add_component(GameImage.new(x: x, y: y, path: path))
+  end
+
   def self.top_left_corner(x:, y:)
-    Entity.new.tap do |entity|
-      entity.add_component(Obstacle.new)
-      entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(Presentable.new(path: './data/top_left_corner.png'))
-    end
+    path = './data/top_left_corner.png' # Should be in config
+    Entity.new.tap { |entity| add_components_to(entity: entity, x: x, y: y, path: path) }
   end
 
   def self.top_right_corner(x:, y:)
-    Entity.new.tap do |entity|
-      entity.add_component(Obstacle.new)
-      entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(Presentable.new(path: './data/top_right_corner.png'))
-    end
+    path = './data/top_right_corner.png'
+    Entity.new.tap { |entity| add_components_to(entity: entity, x: x, y: y, path: path) }
   end
 
   def self.top(x:, y:)
-    Entity.new.tap do |entity|
-      entity.add_component(Obstacle.new)
-      entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(Presentable.new(path: './data/top.png'))
-    end
+    path = './data/top.png'
+    Entity.new.tap { |entity| add_components_to(entity: entity, x: x, y: y, path: path) }
   end
 
   def self.bottom_left_corner(x:, y:)
-    Entity.new.tap do |entity|
-      entity.add_component(Obstacle.new)
-      entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(Presentable.new(path: './data/bottom_left_corner.png'))
-    end
+    path = './data/bottom_left_corner.png'
+    Entity.new.tap { |entity| add_components_to(entity: entity, x: x, y: y, path: path) }
   end
 
   def self.bottom_right_corner(x:, y:)
-    Entity.new.tap do |entity|
-      entity.add_component(Obstacle.new)
-      entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(Presentable.new(path: './data/bottom_right_corner.png'))
-    end
+    path = './data/bottom_right_corner.png'
+    Entity.new.tap { |entity| add_components_to(entity: entity, x: x, y: y, path: path) }
   end
 
   def self.bottom(x:, y:)
-    Entity.new.tap do |entity|
-      entity.add_component(Obstacle.new)
-      entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(Presentable.new(path: './data/bottom.png'))
-    end
+    path = './data/bottom.png'
+    Entity.new.tap { |entity| add_components_to(entity: entity, x: x, y: y, path: path) }
   end
 
   def self.left_wall(x:, y:)
-    Entity.new.tap do |entity|
-      entity.add_component(Obstacle.new)
-      entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(Presentable.new(path: './data/left.png'))
-    end
+    path = './data/left.png'
+    Entity.new.tap { |entity| add_components_to(entity: entity, x: x, y: y, path: path) }
   end
 
   def self.right_wall(x:, y:)
-    Entity.new.tap do |entity|
-      entity.add_component(Obstacle.new)
-      entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(Presentable.new(path: './data/right.png'))
-    end
+    path = './data/right.png'
+    Entity.new.tap { |entity| add_components_to(entity: entity, x: x, y: y, path: path) }
   end
 
   def self.bricks(x:, y:)
-    Entity.new.tap do |entity|
-      entity.add_component(Obstacle.new)
-      entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(Presentable.new(path: './data/bricks1.png'))
-    end
+    path =  './data/bricks1.png'
+    Entity.new.tap { |entity| add_components_to(entity: entity, x: x, y: y, path: path) }
   end
 
   def self.floor(x:, y:)
     Entity.new.tap do |entity|
       entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(Presentable.new(path: './data/floor1.png'))
+      entity.add_component(GameImage.new(x: x, y: y, path: './data/floor1.png'))
     end
   end
 end

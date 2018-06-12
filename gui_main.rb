@@ -1,5 +1,8 @@
 $LOAD_PATH.unshift "."
 
+require 'memory_profiler'
+
+MemoryProfiler.start
 require 'ruby2d'
 
 require 'entity'
@@ -14,13 +17,16 @@ require 'components/obstacle'
 require 'components/player_movable'
 require 'components/2d/presentable'
 require 'components/movement' # should be in lib
+require 'components/2d/game_image'
 
 require 'systems/system'
-require 'systems/2d/element_rendering'
 require 'systems/2d/movement_system'
 
 require 'lib/room_generator'
 require 'lib/collision_detector'
+
+# require 'entities/enemies/ghost'
+
 
 set(
   {
@@ -44,18 +50,18 @@ hero.add_component(Position.new(x: 6, y: 8))
 hero.add_component(Presentable.new(path: './data/hero1.png'))
 hero.add_component(PlayerMovable.new)
 hero.add_component(Obstacle.new)
-# hero.add_component(Health.new(hp: 10))
+hero.add_component(GameImage.new(x: hero.position.x, y: hero.position.y, path: hero.presentable.path))
 
 world.add_entity(hero)
 
-world.add_system(ElementRendering.new(entity_manager: entity_manager))
 world.add_system(MovementSystem.new(entity_manager: entity_manager))
-
-tick = 0
 
 on :key_down do |e|
   case e.key
-  when 'q' then close
+  when 'q'
+    report = MemoryProfiler.stop
+    report.pretty_print(to_file: 'stats')
+    close
   else
     world.update(player_input: e)
   end
