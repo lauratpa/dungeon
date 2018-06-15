@@ -1,7 +1,6 @@
-require './systems/approach_possibilities'
+require './lib/approach_possibilities'
 require './components/component'
 require './components/position'
-require 'pry'
 
 RSpec.describe ApproachPossibilities do
   let(:to_position) { Position.new(x: 1, y: 1) }

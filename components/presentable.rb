@@ -1,7 +1,7 @@
 class Presentable < Component
-  attr_reader :sign
+  attr_reader :path
 
-  def initialize(sign:)
-    @sign = sign
+  def initialize(path:)
+    @path = path
   end
 end

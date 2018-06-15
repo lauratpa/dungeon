@@ -1,12 +1,10 @@
 $LOAD_PATH.unshift "."
 
-require 'pp'
-require 'pry'
-require 'logger'
-require 'curses'
+require 'memory_profiler'
 
-require 'ui'
-require 'title_screen'
+# MemoryProfiler.start
+require 'ruby2d'
+
 require 'entity'
 require 'entity_manager'
 require 'world'
@@ -15,88 +13,76 @@ require 'config'
 
 require 'components/component'
 require 'components/position'
-require 'components/player_input'
-require 'components/movement'
-require 'components/roomable'
-require 'components/presentable'
-require 'components/player_movable'
-require 'components/health'
 require 'components/obstacle'
-require 'components/trap'
-require 'components/message'
-require 'components/ttl'
+require 'components/health'
 require 'components/hostile'
+require 'components/player_movable'
+require 'components/presentable'
+require 'components/game_image'
+
+require 'lib/movement'
+require 'lib/room_generator'
+require 'lib/collision_detector'
+require 'lib/approach_possibilities'
 
 require 'systems/system'
 require 'systems/movement_system'
-require 'systems/trap_system'
-require 'systems/background_rendering'
-require 'systems/element_rendering'
-require 'systems/stats_rendering'
 require 'systems/attacking_system'
-require 'systems/message_rendering'
-require 'systems/ttl_cleaner'
 require 'systems/grim_reaper'
-require 'systems/approach_possibilities'
 require 'systems/guidance_system'
 
-require 'entities/enemies/spider'
+require 'entities/enemies/ghost'
 
-require 'lib/messenger'
-require 'lib/collision_detector'
-require 'lib/position_lottery'
+set(
+  {
+    title: 'Dungeon',
+    background: '#343e71',
+    fullscreen: true,
+    width: 320,
+    height: 200
+  }
+)
 
-$logger = Logger.new('debug.log')
-
-ui = UI.new
 entity_manager = EntityManager.new
 world = World.new(entity_manager: entity_manager)
-roomable = Roomable.new(min_x: 8, min_y: 8, max_x: 12, max_y: 12)
-position_lottery = PositionLottery.new(entity_manager: entity_manager)
+
+RoomGenerator.call(x: 5, y: 6, height: 9, width: 9).each do |tile|
+  world.add_entity(tile)
+end
 
 hero = Entity.new
-hero.add_component(position_lottery.draw(room: roomable))
-hero.add_component(roomable)
-hero.add_component(Presentable.new(sign: '@'))
+hero.add_component(Position.new(x: 6, y: 8))
+hero.add_component(Presentable.new(path: './data/hero1.png'))
 hero.add_component(PlayerMovable.new)
 hero.add_component(Obstacle.new)
 hero.add_component(Health.new(hp: 10))
+hero.add_component(GameImage.new(x: hero.position.x, y: hero.position.y, path: hero.presentable.path))
 
-spider = Spider.new
-spider.add_component(position_lottery.draw(room: roomable))
-spider.add_component(roomable)
-
-trap = Entity.new
-trap.add_component(position_lottery.draw(room: roomable))
-trap.add_component(roomable)
-trap.add_component(Trap.new(damage: 2))
-trap.add_component(Presentable.new(sign: 'e'))
+ghost = Ghost.new
+ghost.add_component(Position.new(x: 9, y: 10))
+ghost.add_component(GameImage.new(x: ghost.position.x, y: ghost.position.y, path: ghost.presentable.path))
 
 world.add_entity(hero)
-world.add_entity(spider)
-world.add_entity(trap)
+world.add_entity(ghost)
 
+world.add_system(MovementSystem.new(entity_manager: entity_manager))
 world.add_system(AttackingSystem.new(entity_manager: entity_manager))
 world.add_system(GrimReaper.new(entity_manager: entity_manager))
-world.add_system(MovementSystem.new(entity_manager: entity_manager))
 world.add_system(GuidanceSystem.new(entity_manager: entity_manager))
-world.add_system(TrapSystem.new(entity_manager: entity_manager))
-world.add_system(BackgroundRendering.new(ui: ui, entity_manager: entity_manager))
-world.add_system(ElementRendering.new(ui: ui, entity_manager: entity_manager))
-world.add_system(StatsRendering.new(ui: ui, entity_manager: entity_manager))
-world.add_system(MessageRendering.new(ui: ui, entity_manager: entity_manager))
-world.add_system(TtlCleaner.new(entity_manager: entity_manager))
 
-TitleScreen.new(ui: ui).show
-player_input = PlayerInput.new(key: ui.prompt)
-ui.clear
-world.update(player_input: player_input)
-
-loop do
-  player_input = PlayerInput.new(key: ui.prompt)
-
-  return if player_input.key == 'q'
-  world.update(player_input: player_input)
+on :key_down do |e|
+  case e.key
+  when 'q'
+    # report = MemoryProfiler.stop
+    # report.pretty_print(to_file: 'stats')
+    close
+  else
+    world.update(player_input: e)
+  end
 end
 
-ui.close
+update do
+  world.update(player_input: nil)
+end
+
+show
