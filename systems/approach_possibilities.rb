@@ -1,4 +1,4 @@
-class ApproachPossibilities
+class ApproachPossibilities # Should be in lib
   def self.call(to_position:, from_position:)
     y_distance = to_position.y - from_position.y
     x_distance = to_position.x - from_position.x

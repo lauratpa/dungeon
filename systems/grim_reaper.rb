@@ -7,6 +7,7 @@ class GrimReaper < System
 
   def handle(player_input: nil, entities:)
     entities
+      .tap { |ents| ents << player if player }
       .select { |entity| entity.health.hp <= 0 }
       .each do |entity|
         entity_manager.remove(entity)

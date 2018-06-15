@@ -12,7 +12,7 @@ class AttackingSystem < System
     return unless player_input
 
     movement = Movement.call(player_input: player_input)
-    return unless movement
+    return unless movement && player
 
     attributes = player.position.attributes
     coordinate = movement.fetch(:coordinate)

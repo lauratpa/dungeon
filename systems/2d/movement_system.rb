@@ -12,7 +12,7 @@ class MovementSystem < System
     return unless player_input
 
     movement = Movement.call(player_input: player_input)
-    return unless movement
+    return unless movement && player
 
     old_position = player.position
     attributes = old_position.attributes

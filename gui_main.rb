@@ -25,6 +25,8 @@ require 'systems/system'
 require 'systems/2d/movement_system'
 require 'systems/attacking_system'
 require 'systems/grim_reaper'
+require 'systems/approach_possibilities'
+require 'systems/guidance_system'
 
 require 'lib/room_generator'
 require 'lib/collision_detector'
@@ -44,7 +46,7 @@ set(
 entity_manager = EntityManager.new
 world = World.new(entity_manager: entity_manager)
 
-RoomGenerator.call(x: 5, y: 6, height: 6, width: 5).each do |tile|
+RoomGenerator.call(x: 5, y: 6, height: 9, width: 9).each do |tile|
   world.add_entity(tile)
 end
 
@@ -57,7 +59,7 @@ hero.add_component(Health.new(hp: 10))
 hero.add_component(GameImage.new(x: hero.position.x, y: hero.position.y, path: hero.presentable.path))
 
 ghost = Ghost.new
-ghost.add_component(Position.new(x: 7, y: 9))
+ghost.add_component(Position.new(x: 9, y: 10))
 ghost.add_component(GameImage.new(x: ghost.position.x, y: ghost.position.y, path: ghost.presentable.path))
 
 world.add_entity(hero)
@@ -66,6 +68,7 @@ world.add_entity(ghost)
 world.add_system(MovementSystem.new(entity_manager: entity_manager))
 world.add_system(AttackingSystem.new(entity_manager: entity_manager))
 world.add_system(GrimReaper.new(entity_manager: entity_manager))
+world.add_system(GuidanceSystem.new(entity_manager: entity_manager))
 
 on :key_down do |e|
   case e.key
