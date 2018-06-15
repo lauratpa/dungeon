@@ -1,7 +1,7 @@
 class AttackingSystem < System
   def initialize(entity_manager:)
     super(
-      component_types: [Position, Roomable],
+      component_types: [Position],
       entity_manager: entity_manager
     )
   end
@@ -9,6 +9,8 @@ class AttackingSystem < System
   private
 
   def handle(player_input:, entities:)
+    return unless player_input
+
     movement = Movement.call(player_input: player_input)
     return unless movement
 
@@ -28,11 +30,6 @@ class AttackingSystem < System
 
     attacked_enemies.each do |entity|
       entity.health.take_hit(1)
-      entity_manager.notify(create_message(entity))
     end
-  end
-
-  def create_message(enemy)
-    "#{enemy.name.capitalize} HP #{enemy.health.hp}"
   end
 end
