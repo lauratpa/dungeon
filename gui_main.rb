@@ -24,6 +24,7 @@ require 'components/2d/game_image'
 require 'systems/system'
 require 'systems/2d/movement_system'
 require 'systems/attacking_system'
+require 'systems/grim_reaper'
 
 require 'lib/room_generator'
 require 'lib/collision_detector'
@@ -64,6 +65,7 @@ world.add_entity(ghost)
 
 world.add_system(MovementSystem.new(entity_manager: entity_manager))
 world.add_system(AttackingSystem.new(entity_manager: entity_manager))
+world.add_system(GrimReaper.new(entity_manager: entity_manager))
 
 on :key_down do |e|
   case e.key

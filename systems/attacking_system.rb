@@ -30,6 +30,11 @@ class AttackingSystem < System
 
     attacked_enemies.each do |entity|
       entity.health.take_hit(1)
+      entity_manager.notify(create_message(entity))
     end
+  end
+
+  def create_message(enemy)
+    "#{enemy.name.capitalize} HP #{enemy.health.hp}"
   end
 end

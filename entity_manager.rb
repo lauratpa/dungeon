@@ -12,7 +12,7 @@ class EntityManager
   end
 
   def notify(message)
-    add(Messenger.call(message))
+    puts message
   end
 
   def player
