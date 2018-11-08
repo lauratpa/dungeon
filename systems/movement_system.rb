@@ -28,16 +28,5 @@ class MovementSystem < System
       old_component: old_position,
       new_component: new_position
     )
-
-    new_game_image = GameImage.new(
-      x: new_position.x,
-      y: new_position.y,
-      path: player.presentable.path
-    )
-    player.gameimage.remove
-    player.replace_component(
-      old_component: player.gameimage,
-      new_component: new_game_image
-    )
   end
 end

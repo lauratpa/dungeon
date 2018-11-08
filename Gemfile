@@ -2,8 +2,5 @@ source 'https://rubygems.org'
 
 ruby '2.5.0'
 
-
-gem 'ruby2d'
-gem 'rspec'
+gem 'gosu'
 gem 'pry-byebug'
-gem 'memory_profiler'

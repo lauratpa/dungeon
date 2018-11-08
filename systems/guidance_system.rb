@@ -20,19 +20,9 @@ class GuidanceSystem < System
         player.health.take_hit(1)
         entity_manager.notify(create_message(entity))
       else
-        new_game_image = GameImage.new(
-          x: new_position.x,
-          y: new_position.y,
-          path: entity.presentable.path
-        )
         entity.replace_component(
           old_component: entity.position,
           new_component: new_position
-        )
-        entity.gameimage.remove
-        entity.replace_component(
-          old_component: entity.gameimage,
-          new_component: new_game_image
         )
       end
     end

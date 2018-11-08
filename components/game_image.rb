@@ -1,11 +1,12 @@
 class GameImage < Component
-  attr_reader :image
+  attr_reader :image, :z
 
-  def initialize(x:, y:, path:)
-    @image = Image.new({ x: x * 8, y: y * 8, path: path })
+  def initialize(z: 1, path:)
+    @image = Gosu::Image.new(path, tileable: true)
+    @z = z
   end
 
-  def remove
-    image.remove
+  def draw(x, y)
+    image.draw(x * 8, y * 8, z)
   end
 end

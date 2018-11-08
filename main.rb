@@ -1,15 +1,13 @@
 $LOAD_PATH.unshift "."
 
-require 'memory_profiler'
+require 'pry'
+require 'gosu'
 
-# MemoryProfiler.start
-require 'ruby2d'
+require 'config'
 
 require 'entity'
 require 'entity_manager'
 require 'world'
-
-require 'config'
 
 require 'components/component'
 require 'components/position'
@@ -26,6 +24,7 @@ require 'lib/collision_detector'
 require 'lib/approach_possibilities'
 
 require 'systems/system'
+require 'systems/rendering_system'
 require 'systems/movement_system'
 require 'systems/attacking_system'
 require 'systems/grim_reaper'
@@ -33,15 +32,36 @@ require 'systems/guidance_system'
 
 require 'entities/enemies/ghost'
 
-set(
-  {
-    title: 'Dungeon',
-    background: '#343e71',
-    fullscreen: true,
-    width: 320,
-    height: 200
-  }
-)
+class Dungeon < Gosu::Window
+  def initialize(world:, render:)
+    super 320, 200
+    self.caption = 'Dungeon'
+
+    self.fullscreen = true
+    self.update_interval = 100
+    @world = world
+    @render = render
+  end
+
+  def draw
+    @render.update(player_input: 'a')
+  end
+
+  def update
+    case
+    when Gosu.button_down?(Gosu::KB_H)
+      @world.update(player_input: 'h')
+    when Gosu.button_down?(Gosu::KB_J)
+      @world.update(player_input: 'j')
+    end
+    if Gosu.button_down?(Gosu::KB_K)
+      @world.update(player_input: 'k')
+    end
+    if Gosu.button_down?(Gosu::KB_L)
+      @world.update(player_input: 'l')
+    end
+  end
+end
 
 entity_manager = EntityManager.new
 world = World.new(entity_manager: entity_manager)
@@ -56,33 +76,19 @@ hero.add_component(Presentable.new(path: './data/hero1.png'))
 hero.add_component(PlayerMovable.new)
 hero.add_component(Obstacle.new)
 hero.add_component(Health.new(hp: 10))
-hero.add_component(GameImage.new(x: hero.position.x, y: hero.position.y, path: hero.presentable.path))
+hero.add_component(GameImage.new(path: hero.presentable.path))
 
 ghost = Ghost.new
 ghost.add_component(Position.new(x: 9, y: 10))
-ghost.add_component(GameImage.new(x: ghost.position.x, y: ghost.position.y, path: ghost.presentable.path))
+ghost.add_component(GameImage.new(path: ghost.presentable.path))
 
 world.add_entity(hero)
 world.add_entity(ghost)
 
+render = RenderingSystem.new(entity_manager: entity_manager)
 world.add_system(MovementSystem.new(entity_manager: entity_manager))
 world.add_system(AttackingSystem.new(entity_manager: entity_manager))
 world.add_system(GrimReaper.new(entity_manager: entity_manager))
 world.add_system(GuidanceSystem.new(entity_manager: entity_manager))
 
-on :key_down do |e|
-  case e.key
-  when 'q'
-    # report = MemoryProfiler.stop
-    # report.pretty_print(to_file: 'stats')
-    close
-  else
-    world.update(player_input: e)
-  end
-end
-
-update do
-  world.update(player_input: nil)
-end
-
-show
+Dungeon.new(world: world, render: render).show

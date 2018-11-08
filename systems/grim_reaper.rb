@@ -11,7 +11,6 @@ class GrimReaper < System
       .select { |entity| entity.health.hp <= 0 }
       .each do |entity|
         entity_manager.remove(entity)
-        entity.gameimage.remove
         entity_manager.notify(create_message(entity))
       end
   end

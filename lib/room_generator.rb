@@ -41,7 +41,7 @@ class RoomGenerator
     entity.add_component(Obstacle.new)
     entity.add_component(Position.new(x: x, y: y))
     entity.add_component(Presentable.new(path: path))
-    entity.add_component(GameImage.new(x: x, y: y, path: path))
+    entity.add_component(GameImage.new(path: path))
   end
 
   def self.top_left_corner(x:, y:)
@@ -92,7 +92,7 @@ class RoomGenerator
   def self.floor(x:, y:)
     Entity.new.tap do |entity|
       entity.add_component(Position.new(x: x, y: y))
-      entity.add_component(GameImage.new(x: x, y: y, path: './data/floor1.png'))
+      entity.add_component(GameImage.new(path: './data/floor1.png'))
     end
   end
 end
